@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Bookish.Models;
 using Bookish.Models.Member;
+using Bookish.Services;
 
 namespace Bookish.Controllers;
 
@@ -23,28 +24,17 @@ public class MemberController : Controller
     [HttpPost]
     public IActionResult SubmitMemberForm(string name, string email)
     {
-        var context = new LibraryContext();
-        var std = new Member()
-            {
-                Name = name,
-                EmailAddress = email
-            };
-        context.Member.Add(std);
-
-        context.SaveChanges();
-            
-        var members = context.Member;
-
+        MemberService.AddMember(name, email);
+        
         return View("../Home/Members", new MemberViewModel() 
             { 
-                ListOfMembers = members.ToList()
+                ListOfMembers = MemberService.GetMembers()
             });
     }
     
     [HttpGet]
     public IActionResult MemberEdit(int memberId, string name, string email)
     {
-        
         return View(new Member()
         {
             MemberId = memberId,
@@ -56,37 +46,21 @@ public class MemberController : Controller
     [HttpPost]
     public IActionResult SubmitMemberEdit(int memberId, string name, string email)
     {
-        var context = new LibraryContext();
-
-        var member = context.Member.First(m => m.MemberId == memberId);
-
-        member.Name = name;
-        member.EmailAddress = email;
-
-        context.SaveChanges();
-            
-        var members = context.Member;
+        MemberService.EditMember(memberId, name, email);
 
         return View("../Home/Members", new MemberViewModel() 
         { 
-            ListOfMembers = members.ToList()
+            ListOfMembers = MemberService.GetMembers()
         });
     }
     
     public IActionResult MemberDelete(int memberId)
     {
-        var context = new LibraryContext();
-
-        var member = context.Member.First(m => m.MemberId == memberId);
-        context.Remove(member);
-
-        context.SaveChanges();
-            
-        var members = context.Member;
+        MemberService.DeleteMember(memberId);
 
         return View("../Home/Members", new MemberViewModel() 
         { 
-            ListOfMembers = members.ToList()
+            ListOfMembers = MemberService.GetMembers()
         });
     }
     

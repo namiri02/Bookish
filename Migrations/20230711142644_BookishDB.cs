@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Bookish.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateLibraryDB : Migration
+    public partial class BookishDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,26 +15,25 @@ namespace Bookish.Migrations
                 name: "Book",
                 columns: table => new
                 {
-                    BookId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ISBN = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Book", x => x.BookId);
+                    table.PrimaryKey("PK_Book", x => x.ISBN);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Copy",
                 columns: table => new
                 {
-                    BookId = table.Column<int>(type: "int", nullable: false),
-                    CopyId = table.Column<int>(type: "int", nullable: false)
+                    CopyId = table.Column<int>(type: "int", nullable: false),
+                    ISBN = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Copy", x => new { x.BookId, x.CopyId });
+                    table.PrimaryKey("PK_Copy", x => new { x.ISBN, x.CopyId });
                 });
 
             migrationBuilder.CreateTable(
@@ -42,14 +41,15 @@ namespace Bookish.Migrations
                 columns: table => new
                 {
                     CopyId = table.Column<int>(type: "int", nullable: false),
+                    ISBN = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     MemberId = table.Column<int>(type: "int", nullable: false),
                     DateCheckedOut = table.Column<DateOnly>(type: "date", nullable: false),
                     DateDue = table.Column<DateOnly>(type: "date", nullable: false),
-                    DateReturned = table.Column<DateOnly>(type: "date", nullable: false)
+                    DateReturned = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Loan", x => new { x.CopyId, x.MemberId, x.DateCheckedOut });
+                    table.PrimaryKey("PK_Loan", x => new { x.CopyId, x.ISBN, x.MemberId, x.DateCheckedOut });
                 });
 
             migrationBuilder.CreateTable(

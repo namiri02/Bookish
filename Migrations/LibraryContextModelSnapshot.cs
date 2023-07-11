@@ -24,17 +24,10 @@ namespace Bookish.Migrations
 
             modelBuilder.Entity("Bookish.Models.Book.Book", b =>
                 {
-                    b.Property<int>("BookId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookId"));
+                    b.Property<string>("ISBN")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Author")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ISBNNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -42,28 +35,31 @@ namespace Bookish.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("BookId");
+                    b.HasKey("ISBN");
 
                     b.ToTable("Book");
                 });
 
-            modelBuilder.Entity("Bookish.Models.Copy", b =>
+            modelBuilder.Entity("Bookish.Models.Copy.Copy", b =>
                 {
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
+                    b.Property<string>("ISBN")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CopyId")
                         .HasColumnType("int");
 
-                    b.HasKey("BookId", "CopyId");
+                    b.HasKey("ISBN", "CopyId");
 
                     b.ToTable("Copy");
                 });
 
-            modelBuilder.Entity("Bookish.Models.Loan", b =>
+            modelBuilder.Entity("Bookish.Models.Loan.Loan", b =>
                 {
                     b.Property<int>("CopyId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ISBN")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("MemberId")
                         .HasColumnType("int");
@@ -74,10 +70,10 @@ namespace Bookish.Migrations
                     b.Property<DateOnly>("DateDue")
                         .HasColumnType("date");
 
-                    b.Property<DateOnly>("DateReturned")
+                    b.Property<DateOnly?>("DateReturned")
                         .HasColumnType("date");
 
-                    b.HasKey("CopyId", "MemberId", "DateCheckedOut");
+                    b.HasKey("CopyId", "ISBN", "MemberId", "DateCheckedOut");
 
                     b.ToTable("Loan");
                 });

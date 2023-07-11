@@ -1,0 +1,74 @@
+﻿@{  
+    ViewBag.Title = "LoanForm";  
+}
+
+@model Bookish.Models.Loan.LoanViewModel
+
+<!DOCTYPE html>
+<html> 
+<body> 
+
+<h1>Loan Book</h1>
+
+<form method="POST" action="">
+    Member ID:<br>
+    <input type="text" name="memberId" value="@Model.MemberId"><br><br>
+    ISBN:<br>
+    <input type="text" name="isbn" value="@Model.ISBN"><br><br>
+    <input type="submit" value="Submit" class="submit" asp-controller="Loan" asp-action="ShowAvailableCopies">
+</form>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Copy ID
+        </th>
+        <th>
+            Available
+        </th>
+        <th>
+            Date Due
+        </th>
+        <th>
+        </th>
+        <th></th>
+        
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.ListOfCopies)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Copy.CopyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Available)
+            </td>
+            @if (@item.DateDue == null)
+            {
+                <td>
+                    <p>N/A</p>
+                </td> 
+                <td>
+                    <button><a class="nav-link text-dark" asp-area="" asp-controller="Loan" 
+                               asp-route-isbn="@item.Copy.ISBN" asp-route-copyId="@item.Copy.CopyId"
+                               asp-action="LoanCopy">Loan</a></button>
+                </td>
+            }
+            else
+            {
+                <td>
+                    @item.DateDue.ToString()
+                </td>
+                <td>
+                </td>
+            }
+        </tr>
+    }
+    </tbody>
+</table>
+
+</body> 
+</html>

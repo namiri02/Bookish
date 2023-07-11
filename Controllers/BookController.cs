@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Bookish.Models;
 using Bookish.Models.Book;
+using Bookish.Models.Copy;
+using Bookish.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bookish.Controllers;
@@ -23,75 +25,45 @@ public class BookController : Controller
     }
   
     [HttpPost]
-    public IActionResult SubmitBookForm(string title, string author)
+    public IActionResult SubmitBookForm(string title, string author, string isbn)
     {
-        using (var context = new LibraryContext())
-        {
-            var bk = new Book()
-            {
-                Title = title,
-                Author = author
-            };
-            
-            context.Book.Add(bk);
-            
-            context.SaveChanges();
-
-            var books = context.Book;
-
-            return View("../Home/Catalogue", new BookViewModel() 
+        BookService.AddBook(title, author, isbn);
+        
+        return View("../Home/Catalogue", new BookViewModel() 
             { 
-                ListOfBooks = books.ToList()
+                ListOfBooks = BookService.GetBooks()
             });
-        }
     }
     
     [HttpGet]
-    public IActionResult BookEdit(int bookId, string title, string author)
+    public IActionResult BookEdit(string isbn, string title, string author)
     {
-        
         return View(new Book()
         {
-            BookId = bookId,
+            ISBN = isbn,
             Title = title,
             Author = author
         });
     }
     
     [HttpPost]
-    public IActionResult SubmitBookEdit(int bookId, string title, string author)
+    public IActionResult SubmitBookEdit(string isbn, string title, string author)
     {
-        var context = new LibraryContext();
-
-        var member = context.Book.First(m => m.BookId == bookId);
-
-        member.Title = title;
-        member.Author = author;
-
-        context.SaveChanges();
-            
-        var books = context.Book;
+        BookService.EditBook(isbn, title, author);
 
         return View("../Home/Catalogue", new BookViewModel() 
         { 
-            ListOfBooks = books.ToList()
+            ListOfBooks = BookService.GetBooks()
         });
     }
     
-    public IActionResult BookDelete(int bookId)
+    public IActionResult BookDelete(string isbn)
     {
-        var context = new LibraryContext();
-
-        var book = context.Book.First(m => m.BookId == bookId);
-        context.Remove(book);
-
-        context.SaveChanges();
-            
-        var books = context.Book;
+        BookService.DeleteBook(isbn);
 
         return View("../Home/Catalogue", new BookViewModel() 
         { 
-            ListOfBooks = books.ToList()
+            ListOfBooks = BookService.GetBooks()
         });
     }
 }

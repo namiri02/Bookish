@@ -1,5 +1,7 @@
 using Bookish.Models;
 using Bookish.Models.Book;
+using Bookish.Models.Copy;
+using Bookish.Models.Loan;
 using Bookish.Models.Member;
 using Microsoft.EntityFrameworkCore;
 
@@ -42,16 +44,16 @@ namespace Bookish
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         { 
-            optionsBuilder.UseSqlServer(@"Server=127.0.0.1;Database=LibraryDB;User Id=sa;Password=Is0belNa0mi;Encrypt=False;");
+            optionsBuilder.UseSqlServer(@"Server=127.0.0.1;Database=BookishDB;User Id=sa;Password=Is0belNa0mi;Encrypt=False;");
         }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Copy>()
-                .HasKey(l => new { l.BookId, l.CopyId });
+                .HasKey(l => new { l.ISBN, l.CopyId });
             
             modelBuilder.Entity<Loan>()
-                .HasKey(l => new { l.CopyId, l.MemberId, l.DateCheckedOut });
+                .HasKey(l => new { l.CopyId, l.ISBN, l.MemberId, l.DateCheckedOut });
         }
     }
 }

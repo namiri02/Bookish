@@ -21,13 +21,15 @@
     <thead>
     <tr>
         <th>
-            Book ID
+            ISBN
         </th>
         <th>
             Title
         </th>
         <th>
             Author
+        </th>
+        <th>
         </th>
         <th>
         </th>
@@ -42,7 +44,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.BookId)
+                @Html.DisplayFor(modelItem => item.ISBN)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -52,15 +54,20 @@
             </td>
             <td>
                 <button><a class="nav-link text-dark" asp-area="" asp-controller="Book" 
-                           asp-route-bookId="@item.BookId"
+                           asp-route-isbn="@item.ISBN"
                            asp-route-title="@item.Title" 
                            asp-route-author="@item.Author" 
-                           asp-action="BookEdit">Edit Details</a></button>
+                           asp-action="BookEdit">Edit Book Details</a></button>
             </td>
             <td>
                 <button><a class="nav-link text-dark" asp-area="" asp-controller="Book" 
-                           asp-route-bookId="@item.BookId"
+                           asp-route-isbn="@item.ISBN"
                            asp-action="BookDelete">Delete Book</a></button>
+            </td>
+            <td>
+                <button><a class="nav-link text-dark" asp-area="" asp-controller="Copy" 
+                           asp-route-isbn="@item.ISBN"
+                           asp-action="Copy">Copies</a></button>
             </td>
         </tr>
     }

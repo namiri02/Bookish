@@ -1,0 +1,69 @@
+﻿@model Bookish.Models.Copy.CopyStatusListModel
+
+@{
+    ViewData["Title"] = "Copy";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Bookish</h1>
+</div>
+
+<div>
+    <h2>@Model.Title By @Model.Author</h2>
+    <h2>ISBN: @Model.ListOfCopies[0].Copy.ISBN</h2>
+    <h2>Number of Copies Available: @Model.ListOfCopies.Count</h2>
+    <h2>Total Number of Copies: @Model.ListOfCopies.Count</h2>
+</div>
+
+<div class="text-center">
+    <button><a class="nav-link text-dark" asp-area="" asp-controller="Copy" asp-route-isbn="@Model.ListOfCopies[0].Copy.ISBN" asp-action="AddCopy">Add Copy</a></button>
+</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Copy ID
+        </th>
+        <th>
+            Available
+        </th>
+        <th>
+            Date Due
+        </th>
+        <th>
+        </th>
+        <th></th>
+        
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.ListOfCopies)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Copy.CopyId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Available)
+            </td>
+            <td>
+                @if (@item.DateDue == null)
+                {
+                    <p>N/A</p>
+                }
+                else
+                {
+                    @item.DateDue.ToString()  
+                }
+            </td>
+            <td>
+                <button><a class="nav-link text-dark" asp-area="" asp-controller="Copy" 
+                           asp-route-isbn="@item.Copy.ISBN" asp-route-copyId="@item.Copy.CopyId"
+                           asp-action="CopyDelete">Delete Copy</a></button>
+            </td>
+
+        </tr>
+    }
+    </tbody>
+</table>

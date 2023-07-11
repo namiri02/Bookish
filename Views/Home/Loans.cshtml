@@ -1,8 +1,20 @@
-﻿@{
-    ViewData["Title"] = "Loans";
+﻿@{  
+    ViewBag.Title = "LoanForm";  
 }
 
-<div class="text-center">
-    <h1 class="display-4">Bookish</h1>
-    <p>Manage Loans</p>
-</div>
+<!DOCTYPE html>
+<html> 
+<body> 
+
+<h1>Loan Book</h1>
+
+<form method="POST" action="">
+    Member ID:<br>
+    <input type="text" name="memberId" value=""><br><br>
+    ISBN:<br>
+    <input type="text" name="isbn" value=""><br><br>
+    <input type="submit" value="Submit" class="submit" asp-controller="Loan" asp-action="ShowCopies">
+</form>
+
+</body> 
+</html>

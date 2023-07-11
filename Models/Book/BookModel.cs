@@ -4,7 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Book
 {
-    public int BookId { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public string ISBN { get; set; }
     public string Title { get; set; }
     public string Author { get; set; }
 }
