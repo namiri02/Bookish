@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Bookish.Models;
 using Bookish.Models.Book;
+using Bookish.Models.Loan;
 using Bookish.Models.Member;
+using Bookish.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace Bookish.Controllers;
@@ -44,6 +46,17 @@ public class HomeController : Controller
 }
     
     public IActionResult Loans()
+    {
+        return View();
+    }
+
+    public IActionResult ReturnForm(string isbn, int copyId)
+    {
+        LoanService.ReturnCopy(isbn, copyId);
+        return View("Returns");
+    }
+    
+    public IActionResult Returns()
     {
         return View();
     }

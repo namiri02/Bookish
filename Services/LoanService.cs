@@ -1,4 +1,5 @@
-﻿using Bookish.Models.Loan;
+﻿using System.Diagnostics.SymbolStore;
+using Bookish.Models.Loan;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Bookish.Services;
@@ -22,6 +23,20 @@ public static class LoanService
             context.SaveChanges();
         }
     }
+    
+    public static void ReturnCopy(string isbn, int copyId)
+    {
+        using (var context = new LibraryContext())
+        {
+            var loan = context.Loan.Where(l => l.ISBN == isbn && l.CopyId == copyId && l.DateReturned == null).ToList();
+
+            if (!loan.IsNullOrEmpty())
+            {
+                loan[0].DateReturned = DateOnly.FromDateTime(DateTime.Today);
+            }
+            context.SaveChanges();
+        }
+    }    
     
     public static bool IsAvailable(string isbn, int copyId)
     {

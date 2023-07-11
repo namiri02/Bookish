@@ -1,0 +1,20 @@
+﻿@{  
+    ViewBag.Title = "LoanForm";  
+}
+
+<!DOCTYPE html>
+<html> 
+<body> 
+
+<h1>Return Book</h1>
+
+<form method="POST" action="">
+    ISBN:<br>
+    <input type="text" name="isbn" value=""><br><br>
+    Copy ID:<br>
+    <input type="text" name="copyId" value=""><br><br>
+    <input type="submit" value="Submit" class="submit" asp-controller="Home" asp-action="ReturnForm">
+</form>
+
+</body> 
+</html>
