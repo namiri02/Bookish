@@ -1,0 +1,18 @@
+﻿@model Bookish.Models.Member.Member
+
+<!DOCTYPE html>
+<html> 
+<body> 
+
+<h1>Edit member</h1>
+
+<form method="POST" action="">
+New Name:  <br> 
+<input type="text" name="name" value="@Model.Name"><br>
+New Email: <br>
+<input type="text" name="email" value="@Model.EmailAddress"><br><br>
+<input type="submit" value="Submit" class="submit" asp-controller="Member" asp-action="SubmitMemberEdit" asp-route-memberID="@Model.MemberId">
+</form>
+
+</body> 
+</html>

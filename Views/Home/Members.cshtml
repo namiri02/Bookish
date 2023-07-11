@@ -1,0 +1,66 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Bookish.Models.Member.MemberViewModel
+
+@{
+    ViewData["Title"] = "Members";
+}
+
+<h1 class="display-4">Bookish</h1>
+
+<div class="text-center">
+    <button><a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="MemberForm">Add Member</a></button>
+</div>
+
+<div>
+    <h2>Members</h2>
+</div>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Member ID
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Email Address
+        </th>
+        <th>
+        </th>
+        <th>
+        </th>
+        <th></th>
+        
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.ListOfMembers)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailAddress)
+            </td>
+            <td>
+                <button><a class="nav-link text-dark" asp-area="" asp-controller="Member" 
+                           asp-route-memberId="@item.MemberId"
+                           asp-route-name="@item.Name" 
+                           asp-route-email="@item.EmailAddress" 
+                           asp-action="MemberEdit">Edit Details</a></button>
+            </td>
+            <td>
+                <button><a class="nav-link text-dark" asp-area="" asp-controller="Member" 
+                           asp-route-memberId="@item.MemberId"
+                           asp-action="MemberDelete">Delete Member</a></button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

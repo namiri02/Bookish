@@ -1,0 +1,18 @@
+﻿@model Bookish.Models.Book.Book
+
+<!DOCTYPE html>
+<html> 
+<body> 
+
+<h1>Edit book</h1>
+
+<form method="POST" action="">
+    New Title:  <br> 
+    <input type="text" name="title" value="@Model.Title"><br>
+    New Author: <br>
+    <input type="text" name="author" value="@Model.Author"><br><br>
+    <input type="submit" value="Submit" class="submit" asp-controller="Book" asp-action="SubmitBookEdit" asp-route-bookID="@Model.BookId">
+</form>
+
+</body> 
+</html>

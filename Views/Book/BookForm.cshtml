@@ -1,0 +1,20 @@
+﻿@{  
+    ViewBag.Title = "MemberForm";  
+}
+
+<!DOCTYPE html>
+<html> 
+<body> 
+
+<h1>Add member</h1>
+
+<form method="POST" action="">
+    Title:<br> 
+    <input type="text" name="title" value=""><br>
+    Author:<br>
+    <input type="text" name="author" value=""><br><br>
+    <input type="submit" value="Submit" class="submit" asp-controller="Book" asp-action="SubmitBookForm">
+</form>
+
+</body> 
+</html>
